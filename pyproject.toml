@@ -1,0 +1,16 @@
+﻿[project]
+name = "onesage"
+version = "0.1.0a1"
+description = "A strategic intelligence layer that helps humans and AI agents make better decisions before taking action."
+requires-python = ">=3.10"
+dependencies = [
+]
+
+[project.scripts]
+onesage = "onesage.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["onesage*"]
+
+[tool.setuptools.package-data]
+onesage = ["data/*.jsonl"]
