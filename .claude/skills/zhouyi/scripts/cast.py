@@ -37,6 +37,25 @@ def toss():
     return sum(random.choice((2, 3)) for _ in range(3))
 
 
+def reading(moving, n1, n2):
+    """读法只取《左传》《国语》筮例可证的最简规则，不用后世（如朱熹）推演的多爻变细则。"""
+    k = len(moving)
+    name1 = NAME_LIST[n1 - 1]
+    name2 = NAME_LIST[n2 - 1] if n2 else None
+    L = lambda i: LINE_NAMES[i]
+    if k == 0:
+        return f"无动爻：看「{name1}」卦辞；内卦为贞（自身/现状），外卦为悔（外部/变数）。"
+    if k == 1:
+        return f"一爻动：以「{name1}」的{L(moving[0])}爻爻辞为主；之卦「{name2}」看走向。"
+    if k == 6 and n1 == 1:
+        return "六爻皆动：乾卦看「用九」（见群龙无首，吉），之卦为坤。"
+    if k == 6 and n1 == 2:
+        return "六爻皆动：坤卦看「用六」（利永贞），之卦为乾。"
+    names = "、".join(L(i) for i in moving)
+    return (f"{k}爻动（{names}）：古法无统一定说。以「{name1}」为现状、之卦「{name2}」为走向，"
+            f"两卦卦辞并参；动爻的爻辞作为各阶段的提示，不必强分主次。")
+
+
 def main():
     if "--seed" in sys.argv:
         random.seed(int(sys.argv[sys.argv.index("--seed") + 1]))
@@ -46,12 +65,14 @@ def main():
     changed = [1 - b if i in moving else b for i, b in enumerate(base)]
     n1, u1, l1 = find(base)
     print(f"本卦：第{n1}卦 {NAME_LIST[n1-1]}（{u1}上{l1}下）  文件：hexagrams/{n1:02d}-{NAME_LIST[n1-1]}.md")
+    n2 = None
     if moving:
         n2, u2, l2 = find(changed)
         print("动爻：" + "、".join(LINE_NAMES[i] for i in moving))
         print(f"之卦：第{n2}卦 {NAME_LIST[n2-1]}（{u2}上{l2}下）  文件：hexagrams/{n2:02d}-{NAME_LIST[n2-1]}.md")
     else:
-        print("动爻：无（以本卦卦辞为主）")
+        print("动爻：无")
+    print("读法：" + reading(moving, n1, n2))
 
 
 if __name__ == "__main__":
