@@ -6,6 +6,17 @@ A strategic intelligence layer before action.
 
 OneSage is a strategic reasoning layer that helps humans and AI agents make better decisions before taking action.
 
+## 周易决策军师 Skill（新）
+
+`.claude/skills/zhouyi/` 是把周易 64 卦逐卦结构化后做成的 Claude Code skill：
+
+- 每一卦 = 一类事情的**态势**：适用情境、判断要点、宜 / 忌、走向。
+- 每一卦的六爻 = 事情推进的六个**阶段**，各给出爻辞与对策。
+- 遇到事情直接问："我遇到 XX，该怎么办？"，skill 会判卦、定爻，并给出可执行的建议。
+- `index.md` 有情境速查与八卦查卦表；`scripts/cast.py` 可三枚铜钱起卦（可选）。
+
+下文的 Strategic Judgment CLI 是此前的 v0.1.0-alpha 实验性引擎，与上述 skill 相互独立。
+
 ## What OneSage Is
 
 OneSage is a Decision Layer before Action.
